@@ -16,6 +16,13 @@ public class PlayerInput : MonoBehaviour
     public float fallMultiplier = 1.5f;
     private float movement = 0f;
 
+    // Switching
+    [SerializeField] GameObject presentDimension;
+    [SerializeField] GameObject pastDimension;
+    public bool present = true;
+    public float timer;
+    public float cooldown;
+
     // Jumping
     private bool isGrounded = false;
     private bool allowDoubleJump = true;  // can change through triggers for certain areas on map - or when change scenes, etc so it remains unique to level
@@ -49,6 +56,10 @@ public class PlayerInput : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
+
+        // Switch
+        timer = 0;
+        cooldown = 1;
     }
     
 //--------------------------------------------- Updates ----------------------------------------------\\
@@ -57,7 +68,15 @@ public class PlayerInput : MonoBehaviour
     {
         Move(movement);
         animator.SetFloat("Speed", Mathf.Abs(speed * movement));
-        
+    
+        // Switch
+        if (timer >= 0) {timer -= Time.deltaTime;}
+        if (Input.GetKeyDown(KeyCode.S) && timer <= 0)
+        {
+            switchDimension(present);
+            timer = cooldown;
+        }
+
         // Dashing
         CheckDoubleTap();
     }
@@ -70,6 +89,18 @@ public class PlayerInput : MonoBehaviour
             rb.linearVelocity += Vector2.up * Physics.gravity.y * fallMultiplier * Time.fixedDeltaTime ;  // makes player fall faster (e.g. after jump)
         }
 
+        // Jump
+        if (canJump)
+        {
+            Jump();
+            canJump = false;
+        }
+            
+        if (jumpRelease && rb.linearVelocity.y > 0f)        // jump height if the button is released during the jump
+        {
+            jumpRelease = false;
+        }
+
         // Double Jump
         if (allowDoubleJump)
         {
@@ -77,16 +108,14 @@ public class PlayerInput : MonoBehaviour
             {
                 numJumps = 0;       // reset the number of jumps
             }
-            
-            if (canJump)
+        }
+
+        // Normal Jump
+        if (!allowDoubleJump)
+        {
+            if (isGrounded && Mathf.Approximately(rb.linearVelocity.y, 0))  // if player is on "Ground" AND has NO y-velocity (not touching side walls)
             {
-                Jump();
-                canJump = false;
-            }
-            
-            if (jumpRelease && rb.linearVelocity.y > 0f)        // jump height if the button is released during the jump
-            {
-                jumpRelease = false;
+                numJumps = 0;       // reset the number of jumps
             }
         }
 
@@ -144,6 +173,24 @@ public class PlayerInput : MonoBehaviour
         facingRight = !facingRight;
     }
 
+//--------------------------------------------- Switch ----------------------------------------------\\
+
+ void switchDimension(bool current)
+    {
+        if (current)
+        {
+            presentDimension.SetActive(false);
+            pastDimension.SetActive(true);
+            present = false;
+        }
+        else
+        {
+            presentDimension.SetActive(true);
+            pastDimension.SetActive(false);
+            present = true;
+        }
+    }
+
 //--------------------------------------------- Jump ----------------------------------------------\\
 
     private void Jump()
@@ -151,14 +198,14 @@ public class PlayerInput : MonoBehaviour
         rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpHeight);
     }
 
-    void OnJump(InputValue value)  // Note: to enable double jump, make sure allowDoubleJump is set to true!
+    void OnJump(InputValue value)  // NOTE: to enable double jump, make sure allowDoubleJump is set to true!
     {   
         if (allowDoubleJump)  // if double jump is enabled
         {
-            if (value.isPressed && numJumps < 1)
+            if (value.isPressed && numJumps < 2)  // allows 2 jumps
             {
-                canJump = true;          // initialize the number of jumps to 0, and check if numJumps < 1. if so, it allows one more jump (a double jump)
-                numJumps++;             // increment the number of jumps
+                canJump = true;
+                numJumps++;
             }
             
             else if (!value.isPressed)
@@ -169,9 +216,10 @@ public class PlayerInput : MonoBehaviour
 
         else  // Normal Jump
         {
-            if (value.isPressed && isGrounded && Mathf.Approximately(rb.linearVelocity.y, 0))  // if player is on "Ground" AND has NO y-velocity (not touching side walls)
+            if (value.isPressed && numJumps < 1)  // only allow 1 jump
             {
-                Jump();
+                canJump = true;
+                numJumps++;
             }
         }
     }
@@ -222,8 +270,8 @@ public class PlayerInput : MonoBehaviour
         }
     }
 
-/* NOTE: may be issue with switch dimensions - not include for now
-    void OnCollisionStay2D(Collision2D other)  // while IN collider - to make sure don't get weird bug for jump
+/* NOTE: may be issue with switch dimensions - do not include for now
+    void OnCollisionStay2D(Collision2D other)  // while IN collider - to make sure don't get the weird rare bug for jump
     {
         if (other.gameObject.CompareTag("Ground"))
         {
