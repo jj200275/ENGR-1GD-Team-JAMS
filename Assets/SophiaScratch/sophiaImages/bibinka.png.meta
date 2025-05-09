@@ -165,6 +165,19 @@ TextureImporter:
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
@@ -709,7 +722,31 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      bibinka_0: 5157304285741819435
+      bibinka_1: 2734458259361889429
+      bibinka_10: 9131508109345306841
+      bibinka_11: 1319073922584768986
+      bibinka_12: -2133593971776501728
+      bibinka_13: 5528211395514035987
+      bibinka_14: 8173476280613362613
+      bibinka_15: -6187991451340366293
+      bibinka_16: -2127770730078194051
+      bibinka_17: 5952810939721160485
+      bibinka_18: 1346596170515571013
+      bibinka_19: -5875701013807117931
+      bibinka_2: -5198490128610442272
+      bibinka_20: -6409406319364081795
+      bibinka_21: -1276125060633240644
+      bibinka_22: 3694566896769627654
+      bibinka_23: -3957708384217082353
+      bibinka_3: 3263086951501040937
+      bibinka_4: -9078156816180143188
+      bibinka_5: 7592068806470103609
+      bibinka_6: 4404033434379207324
+      bibinka_7: 519038276483151954
+      bibinka_8: -2283704804586360482
+      bibinka_9: -1120785238900896050
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
