@@ -129,6 +129,12 @@ public class PlayerInput : MonoBehaviour
                 Move(movement); // Normal move - is now here (used to be in Update()) | this is necessary for dash to work
             }
         }
+
+        // Move (No dash)
+        if (!allowDash)
+        {
+            Move(movement); // Normal move 
+        }
     }
     
 //--------------------------------------------- Move ----------------------------------------------\\
