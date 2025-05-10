@@ -11,7 +11,7 @@ public class PlayerInput : MonoBehaviour
 {
     // Initializers
     private Rigidbody2D rb;
-    [SerializeField] private float speed = 5f;
+    [SerializeField] private float speed = 4f;
     [SerializeField] private float jumpHeight = 8f;
     public float fallMultiplier = 1.5f;
     private float movement = 0f;
@@ -25,15 +25,16 @@ public class PlayerInput : MonoBehaviour
 
     // Jumping
     private bool isGrounded = false;
-    private bool allowDoubleJump = true;  // can change through triggers for certain areas on map - or when change scenes, etc so it remains unique to level
+    private bool allowDoubleJump = false;  // can change through triggers for certain areas on map - or when change scenes, etc so it remains unique to level
     private int numJumps = 0;
     private bool jumpRelease = false;
     private bool canJump;
     
     // Dashing
     [SerializeField] private float dashSpeed = 20f;
-    [SerializeField] private float dashDuration = 0.2f;
+    [SerializeField] private float dashDuration = 0.3f;
     [SerializeField] private float dashCooldown = 1f;
+    private bool allowDash = true;    // can change through triggers for certain areas on map - or when change scenes, etc so it remains unique to level
     private bool canDash = true;
     private bool isDashing = false;
     private float dashTime;
@@ -83,7 +84,7 @@ public class PlayerInput : MonoBehaviour
 
     private void FixedUpdate()
     {
-        // Falling/Jumping
+        // Fast Fall - for falling/jumping
         if (!Mathf.Approximately(rb.linearVelocity.y, 0))  // when y-velocity NOT = 0 | note this includes when the player falls - not just when jump
         {
             rb.linearVelocity += Vector2.up * Physics.gravity.y * fallMultiplier * Time.fixedDeltaTime ;  // makes player fall faster (e.g. after jump)
@@ -101,43 +102,33 @@ public class PlayerInput : MonoBehaviour
             jumpRelease = false;
         }
 
-        // Double Jump
-        if (allowDoubleJump)
-        {
-            if (isGrounded && Mathf.Approximately(rb.linearVelocity.y, 0))  // if player is on "Ground" AND has NO y-velocity (not touching side walls)
+        if (isGrounded && Mathf.Approximately(rb.linearVelocity.y, 0))  // if player is on "Ground" AND has NO y-velocity (not touching side walls)
             {
                 numJumps = 0;       // reset the number of jumps
             }
-        }
-
-        // Normal Jump
-        if (!allowDoubleJump)
-        {
-            if (isGrounded && Mathf.Approximately(rb.linearVelocity.y, 0))  // if player is on "Ground" AND has NO y-velocity (not touching side walls)
-            {
-                numJumps = 0;       // reset the number of jumps
-            }
-        }
 
         // Dashing
-        if (isDashing)
+        if (allowDash)
         {
-            dashTime -= Time.fixedDeltaTime;
-            if (dashTime <= 0f)
+            if (isDashing)
             {
-                isDashing = false;
-                dashCooldownTimer = dashCooldown;
+                dashTime -= Time.fixedDeltaTime;
+                if (dashTime <= 0f)
+                {
+                    isDashing = false;
+                    dashCooldownTimer = dashCooldown;
+                }
             }
-        }
-        else
-        {
-            dashCooldownTimer -= Time.fixedDeltaTime;
-            if (dashCooldownTimer <= 0f)
+            else
             {
-                canDash = true;
-            }
+                dashCooldownTimer -= Time.fixedDeltaTime;
+                if (dashCooldownTimer <= 0f)
+                {
+                    canDash = true;
+                }
 
-            rb.linearVelocity = new Vector2(movement * speed, rb.linearVelocity.y);
+                rb.linearVelocity = new Vector2(movement * speed, rb.linearVelocity.y);
+            }
         }
     }
     
@@ -200,7 +191,8 @@ public class PlayerInput : MonoBehaviour
 
     void OnJump(InputValue value)  // NOTE: to enable double jump, make sure allowDoubleJump is set to true!
     {   
-        if (allowDoubleJump)  // if double jump is enabled
+        // Double Jump
+        if (allowDoubleJump)
         {
             if (value.isPressed && numJumps < 2)  // allows 2 jumps
             {
@@ -214,7 +206,8 @@ public class PlayerInput : MonoBehaviour
             }
         }
 
-        else  // Normal Jump
+        // Normal Jump
+        else
         {
             if (value.isPressed && numJumps < 1)  // only allow 1 jump
             {
