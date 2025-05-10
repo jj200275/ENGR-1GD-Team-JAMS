@@ -25,13 +25,13 @@ public class PlayerInput : MonoBehaviour
 
     // Jumping
     private bool isGrounded = false;
-    private bool allowDoubleJump = false;  // can change through triggers for certain areas on map - or when change scenes, etc so it remains unique to level
+    private bool allowDoubleJump = true;  // can change through triggers for certain areas on map - or when change scenes, etc so it remains unique to level
     private int numJumps = 0;
     private bool jumpRelease = false;
     private bool canJump;
     
     // Dashing
-    [SerializeField] private float dashSpeed = 20f;
+    [SerializeField] private float dashSpeed = 10f;
     [SerializeField] private float dashDuration = 0.3f;
     [SerializeField] private float dashCooldown = 1f;
     private bool allowDash = true;    // can change through triggers for certain areas on map - or when change scenes, etc so it remains unique to level
@@ -67,7 +67,6 @@ public class PlayerInput : MonoBehaviour
 
     void Update()
     {
-        Move(movement);
         animator.SetFloat("Speed", Mathf.Abs(speed * movement));
     
         // Switch
@@ -127,7 +126,7 @@ public class PlayerInput : MonoBehaviour
                     canDash = true;
                 }
 
-                rb.linearVelocity = new Vector2(movement * speed, rb.linearVelocity.y);
+                Move(movement); // Normal move - is now here (used to be in Update()) | this is necessary for dash to work
             }
         }
     }
@@ -224,7 +223,6 @@ public class PlayerInput : MonoBehaviour
     {
         if (Keyboard.current.aKey.wasPressedThisFrame)
         {
-            //Debug.Log("A key pressed");
             if (Time.time - tapLeft < doubleTap && canDash)
             {
                 Dash(-1);
@@ -233,7 +231,6 @@ public class PlayerInput : MonoBehaviour
         }
         if (Keyboard.current.dKey.wasPressedThisFrame)
         {
-            //Debug.Log("D key pressed");
             if (Time.time - tapRight < doubleTap && canDash)
             {
                 Dash(1);
@@ -248,7 +245,6 @@ public class PlayerInput : MonoBehaviour
         canDash = false;
         dashTime = dashDuration;
         rb.linearVelocity = new Vector2(direction * dashSpeed, 0f);
-        Debug.Log("Dash started! Direction: " + direction);
     }
 
 

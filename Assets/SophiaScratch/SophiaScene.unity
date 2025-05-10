@@ -938,7 +938,7 @@ MonoBehaviour:
   present: 1
   timer: 0
   cooldown: 0
-  dashSpeed: 20
+  dashSpeed: 10
   dashDuration: 0.3
   dashCooldown: 1
 --- !u!114 &903349375
