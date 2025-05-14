@@ -16,6 +16,22 @@ public class PlayerInput : MonoBehaviour
     public float fallMultiplier = 1.5f;
     private float movement = 0f;
 
+<<<<<<< Updated upstream
+=======
+    // Audio
+    public AudioSource audioSteps;  // both dim
+    public AudioSource audioEerie;  // present dim - eerie
+    public AudioSource audioBirds;  // past dimension "music" - birds
+    private bool isMoving;
+
+    // Switching
+    [SerializeField] GameObject presentDimension;
+    [SerializeField] GameObject pastDimension;
+    public bool present = true;
+    public float timer;
+    public float cooldown;
+
+>>>>>>> Stashed changes
     // Jumping
     private bool isGrounded = false;
     private bool allowDoubleJump = true;  // can change through triggers for certain areas on map - or when change scenes, etc so it remains unique to level
@@ -60,6 +76,17 @@ public class PlayerInput : MonoBehaviour
         
         // Dashing
         CheckDoubleTap();
+
+        // Audio - Player Footsteps
+        if (!Mathf.Approximately(rb.linearVelocity.x, 0)) {isMoving = true;} 
+        else {isMoving = false;} 
+
+        if (isMoving && isGrounded)
+        {
+            if (!audioSteps.isPlaying) {audioSteps.Play();}
+        }
+        else {audioSteps.Stop();}
+
     }
 
     private void FixedUpdate()
@@ -122,7 +149,7 @@ public class PlayerInput : MonoBehaviour
     void OnMove(InputValue value)
     {
         movement = value.Get<float>();
-        
+
         // flips player animation
         if (movement < 0 && facingRight == true)
         {
@@ -144,6 +171,34 @@ public class PlayerInput : MonoBehaviour
         facingRight = !facingRight;
     }
 
+<<<<<<< Updated upstream
+=======
+//--------------------------------------------- Audio ----------------------------------------------\\
+
+
+//--------------------------------------------- Switch ----------------------------------------------\\
+
+ void switchDimension(bool current)
+    {
+        if (current)
+        {
+            presentDimension.SetActive(false);
+            pastDimension.SetActive(true);
+            audioEerie.Stop();  // stop present dim audio
+            audioBirds.Play();  // play audio for past dim
+            present = false;
+        }
+        else
+        {
+            presentDimension.SetActive(true);
+            pastDimension.SetActive(false);
+            audioBirds.Stop();  // stop past dim audio
+            audioEerie.Play();  // play audio for present dim
+            present = true;
+        }
+    }
+
+>>>>>>> Stashed changes
 //--------------------------------------------- Jump ----------------------------------------------\\
 
     private void Jump()
@@ -199,7 +254,7 @@ public class PlayerInput : MonoBehaviour
             }
             tapRight = Time.time;
         }
-    }
+    }   
 
     private void Dash(int direction)
     {
