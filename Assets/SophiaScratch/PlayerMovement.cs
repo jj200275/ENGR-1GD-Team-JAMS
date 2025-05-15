@@ -11,10 +11,17 @@ public class PlayerInput : MonoBehaviour
 {
     // Initializers
     private Rigidbody2D rb;
-    [SerializeField] private float speed = 5f;
+    [SerializeField] private float speed = 4f;
     [SerializeField] private float jumpHeight = 8f;
     public float fallMultiplier = 1.5f;
     private float movement = 0f;
+
+    // Switching
+    [SerializeField] GameObject presentDimension;
+    [SerializeField] GameObject pastDimension;
+    public bool present = true;
+    public float timer;
+    public float cooldown;
 
 <<<<<<< Updated upstream
 =======
@@ -40,9 +47,10 @@ public class PlayerInput : MonoBehaviour
     private bool canJump;
     
     // Dashing
-    [SerializeField] private float dashSpeed = 20f;
-    [SerializeField] private float dashDuration = 0.2f;
+    [SerializeField] private float dashSpeed = 10f;
+    [SerializeField] private float dashDuration = 0.3f;
     [SerializeField] private float dashCooldown = 1f;
+    private bool allowDash = true;    // can change through triggers for certain areas on map - or when change scenes, etc so it remains unique to level
     private bool canDash = true;
     private bool isDashing = false;
     private float dashTime;
@@ -65,15 +73,26 @@ public class PlayerInput : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
+
+        // Switch
+        timer = 0;
+        cooldown = 1;
     }
     
 //--------------------------------------------- Updates ----------------------------------------------\\
 
     void Update()
     {
-        Move(movement);
         animator.SetFloat("Speed", Mathf.Abs(speed * movement));
-        
+    
+        // Switch
+        if (timer >= 0) {timer -= Time.deltaTime;}
+        if (Input.GetKeyDown(KeyCode.S) && timer <= 0)
+        {
+            switchDimension(present);
+            timer = cooldown;
+        }
+
         // Dashing
         CheckDoubleTap();
 
@@ -91,51 +110,57 @@ public class PlayerInput : MonoBehaviour
 
     private void FixedUpdate()
     {
-        // Falling/Jumping
+        // Fast Fall - for falling/jumping
         if (!Mathf.Approximately(rb.linearVelocity.y, 0))  // when y-velocity NOT = 0 | note this includes when the player falls - not just when jump
         {
             rb.linearVelocity += Vector2.up * Physics.gravity.y * fallMultiplier * Time.fixedDeltaTime ;  // makes player fall faster (e.g. after jump)
         }
 
-        // Double Jump
-        if (allowDoubleJump)
+        // Jump
+        if (canJump)
         {
-            if (isGrounded && Mathf.Approximately(rb.linearVelocity.y, 0))  // if player is on "Ground" AND has NO y-velocity (not touching side walls)
+            Jump();
+            canJump = false;
+        }
+            
+        if (jumpRelease && rb.linearVelocity.y > 0f)        // jump height if the button is released during the jump
+        {
+            jumpRelease = false;
+        }
+
+        if (isGrounded && Mathf.Approximately(rb.linearVelocity.y, 0))  // if player is on "Ground" AND has NO y-velocity (not touching side walls)
             {
                 numJumps = 0;       // reset the number of jumps
             }
-            
-            if (canJump)
-            {
-                Jump();
-                canJump = false;
-            }
-            
-            if (jumpRelease && rb.linearVelocity.y > 0f)        // jump height if the button is released during the jump
-            {
-                jumpRelease = false;
-            }
-        }
 
         // Dashing
-        if (isDashing)
+        if (allowDash)
         {
-            dashTime -= Time.fixedDeltaTime;
-            if (dashTime <= 0f)
+            if (isDashing)
             {
-                isDashing = false;
-                dashCooldownTimer = dashCooldown;
+                dashTime -= Time.fixedDeltaTime;
+                if (dashTime <= 0f)
+                {
+                    isDashing = false;
+                    dashCooldownTimer = dashCooldown;
+                }
+            }
+            else
+            {
+                dashCooldownTimer -= Time.fixedDeltaTime;
+                if (dashCooldownTimer <= 0f)
+                {
+                    canDash = true;
+                }
+
+                Move(movement); // Normal move - is now here (used to be in Update()) | this is necessary for dash to work
             }
         }
-        else
-        {
-            dashCooldownTimer -= Time.fixedDeltaTime;
-            if (dashCooldownTimer <= 0f)
-            {
-                canDash = true;
-            }
 
-            rb.linearVelocity = new Vector2(movement * speed, rb.linearVelocity.y);
+        // Move (No dash)
+        if (!allowDash)
+        {
+            Move(movement); // Normal move 
         }
     }
     
@@ -171,34 +196,6 @@ public class PlayerInput : MonoBehaviour
         facingRight = !facingRight;
     }
 
-<<<<<<< Updated upstream
-=======
-//--------------------------------------------- Audio ----------------------------------------------\\
-
-
-//--------------------------------------------- Switch ----------------------------------------------\\
-
- void switchDimension(bool current)
-    {
-        if (current)
-        {
-            presentDimension.SetActive(false);
-            pastDimension.SetActive(true);
-            audioEerie.Stop();  // stop present dim audio
-            audioBirds.Play();  // play audio for past dim
-            present = false;
-        }
-        else
-        {
-            presentDimension.SetActive(true);
-            pastDimension.SetActive(false);
-            audioBirds.Stop();  // stop past dim audio
-            audioEerie.Play();  // play audio for present dim
-            present = true;
-        }
-    }
-
->>>>>>> Stashed changes
 //--------------------------------------------- Jump ----------------------------------------------\\
 
     private void Jump()
@@ -206,14 +203,15 @@ public class PlayerInput : MonoBehaviour
         rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpHeight);
     }
 
-    void OnJump(InputValue value)  // Note: to enable double jump, make sure allowDoubleJump is set to true!
+    void OnJump(InputValue value)  // NOTE: to enable double jump, make sure allowDoubleJump is set to true!
     {   
-        if (allowDoubleJump)  // if double jump is enabled
+        // Double Jump
+        if (allowDoubleJump)
         {
-            if (value.isPressed && numJumps < 1)
+            if (value.isPressed && numJumps < 2)  // allows 2 jumps
             {
-                canJump = true;          // initialize the number of jumps to 0, and check if numJumps < 1. if so, it allows one more jump (a double jump)
-                numJumps++;             // increment the number of jumps
+                canJump = true;
+                numJumps++;
             }
             
             else if (!value.isPressed)
@@ -222,11 +220,13 @@ public class PlayerInput : MonoBehaviour
             }
         }
 
-        else  // Normal Jump
+        // Normal Jump
+        else
         {
-            if (value.isPressed && isGrounded && Mathf.Approximately(rb.linearVelocity.y, 0))  // if player is on "Ground" AND has NO y-velocity (not touching side walls)
+            if (value.isPressed && numJumps < 1)  // only allow 1 jump
             {
-                Jump();
+                canJump = true;
+                numJumps++;
             }
         }
     }
@@ -238,7 +238,6 @@ public class PlayerInput : MonoBehaviour
     {
         if (Keyboard.current.aKey.wasPressedThisFrame)
         {
-            //Debug.Log("A key pressed");
             if (Time.time - tapLeft < doubleTap && canDash)
             {
                 Dash(-1);
@@ -247,7 +246,6 @@ public class PlayerInput : MonoBehaviour
         }
         if (Keyboard.current.dKey.wasPressedThisFrame)
         {
-            //Debug.Log("D key pressed");
             if (Time.time - tapRight < doubleTap && canDash)
             {
                 Dash(1);
@@ -262,7 +260,6 @@ public class PlayerInput : MonoBehaviour
         canDash = false;
         dashTime = dashDuration;
         rb.linearVelocity = new Vector2(direction * dashSpeed, 0f);
-        Debug.Log("Dash started! Direction: " + direction);
     }
 
 
@@ -277,8 +274,8 @@ public class PlayerInput : MonoBehaviour
         }
     }
 
-/* NOTE: may be issue with switch dimensions - not include for now
-    void OnCollisionStay2D(Collision2D other)  // while IN collider - to make sure don't get weird bug for jump
+/* NOTE: may be issue with switch dimensions - do not include for now
+    void OnCollisionStay2D(Collision2D other)  // while IN collider - to make sure don't get the weird rare bug for jump
     {
         if (other.gameObject.CompareTag("Ground"))
         {
