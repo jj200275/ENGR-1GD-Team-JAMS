@@ -23,20 +23,11 @@ public class PlayerInput : MonoBehaviour
     public float timer;
     public float cooldown;
 
-<<<<<<< Updated upstream
-=======
     // Audio
     public AudioSource audioSteps;  // both dim
     public AudioSource audioEerie;  // present dim - eerie
     public AudioSource audioBirds;  // past dimension "music" - birds
     private bool isMoving;
-
-    // Switching
-    [SerializeField] GameObject presentDimension;
-    [SerializeField] GameObject pastDimension;
-    public bool present = true;
-    public float timer;
-    public float cooldown;
 
     // Jumping
     private bool isGrounded = false;

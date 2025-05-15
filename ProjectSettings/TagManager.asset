@@ -4,13 +4,7 @@
 TagManager:
   serializedVersion: 3
   tags:
-<<<<<<< Updated upstream
-  - Ground
-=======
   - world
-  - Ground
-  - Audio
->>>>>>> Stashed changes
   layers:
   - Default
   - TransparentFX
@@ -47,6 +41,30 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: 1
+    uniqueID: 2920537331
+    locked: 0
+  - name: 2
+    uniqueID: 2639650339
+    locked: 0
+  - name: 3
+    uniqueID: 1780991397
+    locked: 0
+  - name: 4
+    uniqueID: 1150102469
+    locked: 0
+  - name: Player
+    uniqueID: 1852764987
+    locked: 0
+  - name: Lighting
+    uniqueID: 1857691797
+    locked: 0
+  - name: Ground
+    uniqueID: 4275629131
+    locked: 0
+  - name: Fireflies
+    uniqueID: 1513029435
     locked: 0
   m_RenderingLayers:
   - Default
