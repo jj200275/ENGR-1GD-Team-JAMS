@@ -38,14 +38,13 @@ public class PlayerInput : MonoBehaviour
     public float timer;
     public float cooldown;
 
->>>>>>> Stashed changes
     // Jumping
     private bool isGrounded = false;
     private bool allowDoubleJump = true;  // can change through triggers for certain areas on map - or when change scenes, etc so it remains unique to level
     private int numJumps = 0;
     private bool jumpRelease = false;
     private bool canJump;
-    
+
     // Dashing
     [SerializeField] private float dashSpeed = 10f;
     [SerializeField] private float dashDuration = 0.3f;
@@ -60,14 +59,14 @@ public class PlayerInput : MonoBehaviour
     private float tapLeft = -1f;
     private float tapRight = -1f;
     private float doubleTap = 0.25f;
-    
+
     // Animator
     //[SerializeField] private Animator animator;
     private Animator animator;
-    private bool facingRight = true; 
+    private bool facingRight = true;
 
-    
-//--------------------------------------------- Start ----------------------------------------------\\
+
+    //--------------------------------------------- Start ----------------------------------------------\\
 
     void Start()
     {
@@ -78,8 +77,8 @@ public class PlayerInput : MonoBehaviour
         timer = 0;
         cooldown = 1;
     }
-    
-//--------------------------------------------- Updates ----------------------------------------------\\
+
+    //--------------------------------------------- Updates ----------------------------------------------\\
 
     void Update()
     {
@@ -97,14 +96,14 @@ public class PlayerInput : MonoBehaviour
         CheckDoubleTap();
 
         // Audio - Player Footsteps
-        if (!Mathf.Approximately(rb.linearVelocity.x, 0)) {isMoving = true;} 
-        else {isMoving = false;} 
+        if (!Mathf.Approximately(rb.linearVelocity.x, 0)) { isMoving = true; }
+        else { isMoving = false; }
 
         if (isMoving && isGrounded)
         {
-            if (!audioSteps.isPlaying) {audioSteps.Play();}
+            if (!audioSteps.isPlaying) { audioSteps.Play(); }
         }
-        else {audioSteps.Stop();}
+        else { audioSteps.Stop(); }
 
     }
 
@@ -113,25 +112,28 @@ public class PlayerInput : MonoBehaviour
         // Fast Fall - for falling/jumping
         if (!Mathf.Approximately(rb.linearVelocity.y, 0))  // when y-velocity NOT = 0 | note this includes when the player falls - not just when jump
         {
-            rb.linearVelocity += Vector2.up * Physics.gravity.y * fallMultiplier * Time.fixedDeltaTime ;  // makes player fall faster (e.g. after jump)
+            rb.linearVelocity += Vector2.up * Physics.gravity.y * fallMultiplier * Time.fixedDeltaTime;  // makes player fall faster (e.g. after jump)
         }
 
-        // Jump
-        if (canJump)
+        // Double Jump
+        if (allowDoubleJump)
         {
-            Jump();
-            canJump = false;
-        }
-            
-        if (jumpRelease && rb.linearVelocity.y > 0f)        // jump height if the button is released during the jump
-        {
-            jumpRelease = false;
-        }
-
-        if (isGrounded && Mathf.Approximately(rb.linearVelocity.y, 0))  // if player is on "Ground" AND has NO y-velocity (not touching side walls)
+            if (isGrounded && Mathf.Approximately(rb.linearVelocity.y, 0))  // if player is on "Ground" AND has NO y-velocity (not touching side walls)
             {
                 numJumps = 0;       // reset the number of jumps
             }
+
+            if (canJump)
+            {
+                Jump();
+                canJump = false;
+            }
+
+            if (jumpRelease && rb.linearVelocity.y > 0f)        // jump height if the button is released during the jump
+            {
+                jumpRelease = false;
+            }
+        }
 
         // Dashing
         if (allowDash)
@@ -163,11 +165,11 @@ public class PlayerInput : MonoBehaviour
             Move(movement); // Normal move 
         }
     }
-    
-//--------------------------------------------- Move ----------------------------------------------\\
+
+    //--------------------------------------------- Move ----------------------------------------------\\
 
     private void Move(float x)
-    {   
+    {
         rb.linearVelocity = new Vector2(x * speed, rb.linearVelocity.y);
     }
 
@@ -184,7 +186,7 @@ public class PlayerInput : MonoBehaviour
         if (movement > 0 && facingRight == false)
         {
             Flip();
-        }  
+        }
     }
 
     void Flip()   // Flip function for animation when Move
@@ -196,7 +198,32 @@ public class PlayerInput : MonoBehaviour
         facingRight = !facingRight;
     }
 
-//--------------------------------------------- Jump ----------------------------------------------\\
+    //--------------------------------------------- Audio ----------------------------------------------\\
+
+
+    //--------------------------------------------- Switch ----------------------------------------------\\
+
+    void switchDimension(bool current)
+    {
+        if (current)
+        {
+            presentDimension.SetActive(false);
+            pastDimension.SetActive(true);
+            audioEerie.Stop();  // stop present dim audio
+            audioBirds.Play();  // play audio for past dim
+            present = false;
+        }
+        else
+        {
+            presentDimension.SetActive(true);
+            pastDimension.SetActive(false);
+            audioBirds.Stop();  // stop past dim audio
+            audioEerie.Play();  // play audio for present dim
+            present = true;
+        }
+    }
+
+    //--------------------------------------------- Jump ----------------------------------------------\\
 
     private void Jump()
     {
@@ -213,7 +240,7 @@ public class PlayerInput : MonoBehaviour
                 canJump = true;
                 numJumps++;
             }
-            
+
             else if (!value.isPressed)
             {
                 jumpRelease = true;     // jump button is released
@@ -232,7 +259,7 @@ public class PlayerInput : MonoBehaviour
     }
 
 
-//--------------------------------------------- Dash ----------------------------------------------\\
+    //--------------------------------------------- Dash ----------------------------------------------\\
 
     private void CheckDoubleTap()
     {
@@ -252,7 +279,7 @@ public class PlayerInput : MonoBehaviour
             }
             tapRight = Time.time;
         }
-    }   
+    }
 
     private void Dash(int direction)
     {
@@ -263,7 +290,7 @@ public class PlayerInput : MonoBehaviour
     }
 
 
-//--------------------------------------------- Collisions ----------------------------------------------\\
+    //--------------------------------------------- Collisions ----------------------------------------------\\
 
     // Ground Check 
     void OnCollisionEnter2D(Collision2D other)
@@ -288,5 +315,5 @@ public class PlayerInput : MonoBehaviour
     {
         isGrounded = false;
     }
-    
+
 }
