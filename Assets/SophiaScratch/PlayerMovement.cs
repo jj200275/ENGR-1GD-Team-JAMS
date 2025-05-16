@@ -81,6 +81,7 @@ public class PlayerInput : MonoBehaviour
         {
             switchDimension(present);
             timer = cooldown;
+            Debug.Log("switched");
         }
 
         // Dashing
