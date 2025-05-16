@@ -820,8 +820,8 @@ GameObject:
   - component: {fileID: 903349373}
   - component: {fileID: 903349378}
   - component: {fileID: 903349379}
-  - component: {fileID: 903349380}
   - component: {fileID: 903349381}
+  - component: {fileID: 903349380}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -935,7 +935,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 4
   jumpHeight: 5
-  tilemapC: {fileID: 595204770}
+  fallMultiplier: 1.5
+  presentDimension: {fileID: 595204767}
+  pastDimension: {fileID: 39864017}
+  present: 1
+  timer: 0
+  cooldown: 0
+  audioSteps: {fileID: 903349379}
+  audioEerie: {fileID: 903349381}
+  audioBirds: {fileID: 903349380}
+  dashSpeed: 10
+  dashDuration: 0.3
+  dashCooldown: 1
 --- !u!114 &903349375
 MonoBehaviour:
   m_ObjectHideFlags: 0
