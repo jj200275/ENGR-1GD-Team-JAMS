@@ -3,7 +3,9 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 3
-  tags: []
+  tags:
+  - world
+  - Ground
   layers:
   - Default
   - TransparentFX
@@ -55,6 +57,9 @@ TagManager:
     locked: 0
   - name: Player
     uniqueID: 1852764987
+    locked: 0
+  - name: Platforms
+    uniqueID: 2398462541
     locked: 0
   - name: Lighting
     uniqueID: 1857691797
