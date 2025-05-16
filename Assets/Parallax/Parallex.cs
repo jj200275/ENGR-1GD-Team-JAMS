@@ -9,7 +9,14 @@ public class BackgroundController : MonoBehaviour
     void Start()
     {
         startPos = transform.position.x;
-        length = GetComponent<SpriteRenderer>().bounds.size.x;
+        if (TryGetComponent<SpriteRenderer>(out var sr))
+        {
+            length = sr.bounds.size.x;
+        }
+        else if (TryGetComponent<ParticleSystemRenderer>(out var psr))
+        {
+            length = psr.bounds.size.x;
+        }
     }
 
     void FixedUpdate()
