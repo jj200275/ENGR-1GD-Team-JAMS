@@ -107,24 +107,21 @@ public class PlayerInput : MonoBehaviour
             rb.linearVelocity += Vector2.up * Physics.gravity.y * fallMultiplier * Time.fixedDeltaTime;  // makes player fall faster (e.g. after jump)
         }
 
-        // Double Jump
-        if (allowDoubleJump)
+        // Jump
+        if (canJump)
         {
-            if (isGrounded && Mathf.Approximately(rb.linearVelocity.y, 0))  // if player is on "Ground" AND has NO y-velocity (not touching side walls)
-            {
-                numJumps = 0;       // reset the number of jumps
-            }
+            Jump();
+            canJump = false;
+        }
+            
+        if (jumpRelease && rb.linearVelocity.y > 0f)        // jump height if the button is released during the jump
+        {
+            jumpRelease = false;
+        }
 
-            if (canJump)
-            {
-                Jump();
-                canJump = false;
-            }
-
-            if (jumpRelease && rb.linearVelocity.y > 0f)        // jump height if the button is released during the jump
-            {
-                jumpRelease = false;
-            }
+        if (isGrounded && Mathf.Approximately(rb.linearVelocity.y, 0))  // if player is on "Ground" AND has NO y-velocity (not touching side walls)
+        {
+            numJumps = 0;       // reset the number of jumps
         }
 
         // Dashing
