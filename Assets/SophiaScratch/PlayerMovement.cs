@@ -16,8 +16,6 @@ public class PlayerInput : MonoBehaviour
     public float fallMultiplier = 1.5f;
     private float movement = 0f;
 
-<<<<<<< Updated upstream
-=======
     // Switching
     [SerializeField] GameObject presentDimension;
     [SerializeField] GameObject pastDimension;
