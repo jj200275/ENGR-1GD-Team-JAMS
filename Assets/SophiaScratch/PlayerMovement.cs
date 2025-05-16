@@ -18,12 +18,6 @@ public class PlayerInput : MonoBehaviour
 
 <<<<<<< Updated upstream
 =======
-    // Audio
-    public AudioSource audioSteps;  // both dim
-    public AudioSource audioEerie;  // present dim - eerie
-    public AudioSource audioBirds;  // past dimension "music" - birds
-    private bool isMoving;
-
     // Switching
     [SerializeField] GameObject presentDimension;
     [SerializeField] GameObject pastDimension;
@@ -31,7 +25,12 @@ public class PlayerInput : MonoBehaviour
     public float timer;
     public float cooldown;
 
->>>>>>> Stashed changes
+    // Audio
+    public AudioSource audioSteps;  // both dim
+    public AudioSource audioEerie;  // present dim - eerie
+    public AudioSource audioBirds;  // past dimension "music" - birds
+    private bool isMoving;
+
     // Jumping
     private bool isGrounded = false;
     private bool allowDoubleJump = true;  // can change through triggers for certain areas on map - or when change scenes, etc so it remains unique to level
@@ -171,8 +170,6 @@ public class PlayerInput : MonoBehaviour
         facingRight = !facingRight;
     }
 
-<<<<<<< Updated upstream
-=======
 //--------------------------------------------- Audio ----------------------------------------------\\
 
 
@@ -198,7 +195,6 @@ public class PlayerInput : MonoBehaviour
         }
     }
 
->>>>>>> Stashed changes
 //--------------------------------------------- Jump ----------------------------------------------\\
 
     private void Jump()
