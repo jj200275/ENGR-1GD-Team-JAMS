@@ -6,6 +6,7 @@ TagManager:
   tags:
   - world
   - Ground
+  - LevelExit
   layers:
   - Default
   - TransparentFX
