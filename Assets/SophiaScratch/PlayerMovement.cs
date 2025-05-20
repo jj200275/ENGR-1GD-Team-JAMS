@@ -17,6 +17,10 @@ public class PlayerInput : MonoBehaviour
     public float fallMultiplier = 1.5f;
     private float movement = 0f;
 
+    // Restart Level
+    private float restartTimer = 0;
+    private float restartCooldown = 3f;
+
     // Switching
     [SerializeField] GameObject presentDimension;
     [SerializeField] GameObject pastDimension;
@@ -113,6 +117,13 @@ public class PlayerInput : MonoBehaviour
     void Update()
     {
         animator.SetFloat("Speed", Mathf.Abs(speed * movement));
+
+        // Restart Level
+        if (restartTimer <= restartCooldown) {restartTimer += Time.deltaTime;}
+        if (Input.GetKeyDown(KeyCode.R) && restartTimer >= restartCooldown)
+        {
+            SceneManager.LoadScene(index);  // reload current scene - note that it also reloads script
+        }
     
         // Switch
         if (timer >= 0) {timer -= Time.deltaTime;}
