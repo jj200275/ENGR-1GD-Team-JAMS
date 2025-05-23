@@ -6324,7 +6324,7 @@ MonoBehaviour:
   pastDimension: {fileID: 1006750443}
   present: 1
   timer: 0
-  cooldown: 0.5
+  cooldown: 0
   audioSteps: {fileID: 263724687}
   audioEerie: {fileID: 263724685}
   audioBirds: {fileID: 263724686}

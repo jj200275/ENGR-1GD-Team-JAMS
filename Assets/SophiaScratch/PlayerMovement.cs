@@ -75,41 +75,7 @@ public class PlayerInput : MonoBehaviour
 
         // Switch
         timer = 0;
-        cooldown = 0.6f;
-
-        // Initialize index - gets current level (when loads new scene)
-        index = SceneManager.GetActiveScene().buildIndex;
-
-        // Initialization for proper dimension - if level starts in past, set present to false
-        if (index == 1 || index == 2)   // aka Levels 2 & 3
-        {
-            present = false;
-
-            audioEerie.playOnAwake = false;
-            audioEerie.Stop();
-
-            audioBirds.playOnAwake = true;
-            audioBirds.Play();
-        }
-
-        // Special Mvmts for Levels   -- >= in case of level bugs during gameplay        
-        if (index >= 1) // enable dim. switch  - at level 2 (index is 1)
-        {
-            allowDimSwitch = true;
-            //Debug.Log("Dimension Switch enabled");
-        }
-            
-        if (index >= 3) // enable double jump  - level 4 (index is 3)
-        {
-            allowDoubleJump = true;
-            //Debug.Log("Double Jump enabled");
-        }
-            
-        if (index >= 4) // enable dash - level 5 (index is 4)
-        {
-            allowDash = true;
-            //Debug.Log("Dash enabled");
-        }
+        cooldown = 1;
     }
 
     //--------------------------------------------- Updates ----------------------------------------------\\
