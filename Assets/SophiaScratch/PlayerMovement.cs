@@ -66,7 +66,6 @@ public class PlayerInput : MonoBehaviour
 
         // Switch
         timer = 0;
-        cooldown = 1;
     }
 
     //--------------------------------------------- Updates ----------------------------------------------\\
