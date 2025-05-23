@@ -1,22 +1,10 @@
 fileFormatVersion: 2
-guid: 093f6ff1b5c7ae5459af92881e379bc9
+guid: 20064ab3b217a4247bb78949fdcddac6
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -7826608816082626754
-    second: E1_Idle_SpriteSheet_0
-  - first:
-      213: 1243662072711809245
-    second: E1_Idle_SpriteSheet_1
-  - first:
-      213: 3676577299687940421
-    second: E1_Idle_SpriteSheet_2
-  - first:
-      213: 6338115180827912246
-    second: E1_Idle_SpriteSheet_3
-  - first:
-      213: -723002829452417939
-    second: E1_Idle_SpriteSheet_4
+      213: 1748609063333853749
+    second: Vignette-PNG-Free-Image_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -63,7 +51,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 2000
+  spritePixelsToUnits: 100
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -125,13 +113,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: E1_Idle_SpriteSheet_0
+      name: Vignette-PNG-Free-Image_0
       rect:
         serializedVersion: 2
         x: 0
-        y: 1118
-        width: 1117
-        height: 1117
+        y: 0
+        width: 1024
+        height: 540
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -140,96 +128,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: e375479bfbc426390800000000000000
-      internalID: -7826608816082626754
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: E1_Idle_SpriteSheet_1
-      rect:
-        serializedVersion: 2
-        x: 1117
-        y: 1118
-        width: 1117
-        height: 1117
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: dd80d90e010624110800000000000000
-      internalID: 1243662072711809245
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: E1_Idle_SpriteSheet_2
-      rect:
-        serializedVersion: 2
-        x: 2234
-        y: 1118
-        width: 1117
-        height: 1117
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 5412a212393d50330800000000000000
-      internalID: 3676577299687940421
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: E1_Idle_SpriteSheet_3
-      rect:
-        serializedVersion: 2
-        x: 0
-        y: 1
-        width: 1117
-        height: 1117
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 63822ca1d2285f750800000000000000
-      internalID: 6338115180827912246
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: E1_Idle_SpriteSheet_4
-      rect:
-        serializedVersion: 2
-        x: 1117
-        y: 1
-        width: 1117
-        height: 1117
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: d64e2ead1c067f5f0800000000000000
-      internalID: -723002829452417939
+      spriteID: 53afa07bdae444810800000000000000
+      internalID: 1748609063333853749
       vertices: []
       indices: 
       edges: []
@@ -238,7 +138,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 78f63e9e9b741bb45a3894fa4c5122f8
+    spriteID: 
     internalID: 0
     vertices: []
     indices: 
@@ -247,12 +147,7 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable:
-      E1_Idle_SpriteSheet_0: -7826608816082626754
-      E1_Idle_SpriteSheet_1: 1243662072711809245
-      E1_Idle_SpriteSheet_2: 3676577299687940421
-      E1_Idle_SpriteSheet_3: 6338115180827912246
-      E1_Idle_SpriteSheet_4: -723002829452417939
+    nameFileIdTable: {}
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

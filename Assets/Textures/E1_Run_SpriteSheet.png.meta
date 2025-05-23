@@ -66,7 +66,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 100
+  spritePixelsToUnits: 2000
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -131,10 +131,10 @@ TextureImporter:
       name: E1_Run_SpriteSheet_0
       rect:
         serializedVersion: 2
-        x: 287
-        y: 1225
-        width: 584
-        height: 905
+        x: 0
+        y: 1118
+        width: 1117
+        height: 1117
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -153,10 +153,10 @@ TextureImporter:
       name: E1_Run_SpriteSheet_1
       rect:
         serializedVersion: 2
-        x: 1392
-        y: 1208
-        width: 586
-        height: 925
+        x: 1117
+        y: 1118
+        width: 1117
+        height: 1117
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -175,10 +175,10 @@ TextureImporter:
       name: E1_Run_SpriteSheet_2
       rect:
         serializedVersion: 2
-        x: 2522
-        y: 1201
-        width: 581
-        height: 921
+        x: 2234
+        y: 1118
+        width: 1117
+        height: 1117
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -197,10 +197,10 @@ TextureImporter:
       name: E1_Run_SpriteSheet_3
       rect:
         serializedVersion: 2
-        x: 287
-        y: 61
-        width: 573
-        height: 929
+        x: 0
+        y: 1
+        width: 1117
+        height: 1117
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -219,10 +219,10 @@ TextureImporter:
       name: E1_Run_SpriteSheet_4
       rect:
         serializedVersion: 2
-        x: 1394
-        y: 65
-        width: 570
-        height: 931
+        x: 1117
+        y: 1
+        width: 1117
+        height: 1117
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -241,10 +241,10 @@ TextureImporter:
       name: E1_Run_SpriteSheet_5
       rect:
         serializedVersion: 2
-        x: 2523
-        y: 109
-        width: 545
-        height: 899
+        x: 2234
+        y: 1
+        width: 1117
+        height: 1117
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -263,7 +263,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: 5e5a2f3c50f5e7a49b7b09bd32204175
     internalID: 0
     vertices: []
     indices: 
@@ -272,7 +272,13 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      E1_Run_SpriteSheet_0: -3275905443506914699
+      E1_Run_SpriteSheet_1: -1889431181211643272
+      E1_Run_SpriteSheet_2: -5552655046436406355
+      E1_Run_SpriteSheet_3: -2987455735663759205
+      E1_Run_SpriteSheet_4: 540819374546327349
+      E1_Run_SpriteSheet_5: 5658317714079095310
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
