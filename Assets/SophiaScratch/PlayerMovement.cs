@@ -98,13 +98,13 @@ public class PlayerInput : MonoBehaviour
             allowDimSwitch = true;
             //Debug.Log("Dimension Switch enabled");
         }
-            
+
         if (index >= 3) // enable double jump  - level 4 (index is 3)
         {
             allowDoubleJump = true;
             //Debug.Log("Double Jump enabled");
         }
-            
+
         if (index >= 4) // enable dash - level 5 (index is 4)
         {
             allowDash = true;
@@ -119,14 +119,20 @@ public class PlayerInput : MonoBehaviour
         animator.SetFloat("Speed", Mathf.Abs(speed * movement));
 
         // Restart Level
-        if (restartTimer <= restartCooldown) {restartTimer += Time.deltaTime;}
+        if (restartTimer <= restartCooldown) { restartTimer += Time.deltaTime; }
         if (Input.GetKeyDown(KeyCode.R) && restartTimer >= restartCooldown)
         {
+            // Reset all static instruction flags
+            InstructionsScript.ADhasFadedOut = false;
+            InstructionsScript.RhasFadedOut = false;
+            InstructionsScript.ADwaitForExit = false;
+            InstructionsScript.RwaitForExit = false;
+
             SceneManager.LoadScene(index);  // reload current scene - note that it also reloads script
         }
-    
+
         // Switch
-        if (timer >= 0) {timer -= Time.deltaTime;}
+        if (timer >= 0) { timer -= Time.deltaTime; }
         if (allowDimSwitch && Input.GetKeyDown(KeyCode.S) && timer <= 0)
         {
             switchDimension(present);
@@ -166,7 +172,7 @@ public class PlayerInput : MonoBehaviour
             Jump();
             canJump = false;
         }
-            
+
         if (jumpRelease && rb.linearVelocity.y > 0f)        // jump height if the button is released during the jump
         {
             jumpRelease = false;
@@ -275,7 +281,7 @@ public class PlayerInput : MonoBehaviour
     }
 
     void OnJump(InputValue value)  // NOTE: to enable double jump, make sure allowDoubleJump is set to true!
-    {   
+    {
         // Double Jump
         if (allowDoubleJump)
         {
@@ -345,15 +351,15 @@ public class PlayerInput : MonoBehaviour
         }
     }
 
-/* NOTE: may be issue with switch dimensions - do not include for now
-    void OnCollisionStay2D(Collision2D other)  // while IN collider - to make sure don't get the weird rare bug for jump
-    {
-        if (other.gameObject.CompareTag("Ground"))
+    /* NOTE: may be issue with switch dimensions - do not include for now
+        void OnCollisionStay2D(Collision2D other)  // while IN collider - to make sure don't get the weird rare bug for jump
         {
-            isGrounded = true;
+            if (other.gameObject.CompareTag("Ground"))
+            {
+                isGrounded = true;
+            }
         }
-    }
-*/
+    */
 
     void OnCollisionExit2D(Collision2D other)
     {
