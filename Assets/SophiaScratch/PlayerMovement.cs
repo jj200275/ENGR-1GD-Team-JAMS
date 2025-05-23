@@ -80,18 +80,6 @@ public class PlayerInput : MonoBehaviour
         // Initialize index - gets current level (when loads new scene)
         index = SceneManager.GetActiveScene().buildIndex;
 
-        // Initialization for proper dimension - if level starts in past, set present to false
-        if (index == 1 || index == 2)   // aka Levels 2 & 3
-        {
-            present = false;
-
-            audioEerie.playOnAwake = false;
-            audioEerie.Stop();
-
-            audioBirds.playOnAwake = true;
-            audioBirds.Play();
-        }
-
         // Special Mvmts for Levels   -- >= in case of level bugs during gameplay        
         if (index >= 1) // enable dim. switch  - at level 2 (index is 1)
         {
@@ -237,9 +225,6 @@ public class PlayerInput : MonoBehaviour
         facingRight = !facingRight;
     }
 
-    //--------------------------------------------- Audio ----------------------------------------------\\
-
-
     //--------------------------------------------- Switch ----------------------------------------------\\
 
     void switchDimension(bool current)
@@ -340,21 +325,10 @@ public class PlayerInput : MonoBehaviour
         }
     }
 
-/* NOTE: may be issue with switch dimensions - do not include for now
-    void OnCollisionStay2D(Collision2D other)  // while IN collider - to make sure don't get the weird rare bug for jump
-    {
-        if (other.gameObject.CompareTag("Ground"))
-        {
-            isGrounded = true;
-        }
-    }
-*/
-
     void OnCollisionExit2D(Collision2D other)
     {
         isGrounded = false;
     }
-
 
     //--------------------------------------------- Level Loader ----------------------------------------------\\
     void OnTriggerEnter2D(Collider2D other)
@@ -365,5 +339,19 @@ public class PlayerInput : MonoBehaviour
             SceneManager.LoadScene(index + 1);  // loads the next scene in Build Profile
         }
     }
+
+            //----------------------- Past Initialization -------------------\\
+            // Initialization for proper dimension - if level starts in past, set present to false
+            // Call this function in Start() if needed
+                void initializePastDim(int index)  // Note: level = index + 1
+                {
+                    present = false;
+
+                    audioEerie.playOnAwake = false;
+                    audioEerie.Stop();
+
+                    audioBirds.playOnAwake = true;
+                    audioBirds.Play();
+                }
 
 }
