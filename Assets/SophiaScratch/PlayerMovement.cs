@@ -58,7 +58,7 @@ public class PlayerInput : MonoBehaviour
     private float doubleTap = 0.25f;
 
     // Animator
-    //[SerializeField] private Animator animator;
+    [SerializeField] CanvasScript CanvasScript;
     private Animator animator;
     private bool facingRight = true;
 
@@ -135,6 +135,9 @@ public class PlayerInput : MonoBehaviour
         }
         else { audioSteps.Stop(); }
 
+        // Animations
+        animator.SetBool("Running", isMoving);
+        animator.SetBool("Present", present);
     }
 
     private void FixedUpdate()
@@ -236,6 +239,7 @@ public class PlayerInput : MonoBehaviour
             audioEerie.Stop();  // stop present dim audio
             audioBirds.Play();  // play audio for past dim
             present = false;
+            CanvasScript.present = false;
         }
         else
         {
@@ -244,6 +248,7 @@ public class PlayerInput : MonoBehaviour
             audioBirds.Stop();  // stop past dim audio
             audioEerie.Play();  // play audio for present dim
             present = true;
+            CanvasScript.present = true;
         }
     }
 
