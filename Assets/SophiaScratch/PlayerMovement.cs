@@ -6,6 +6,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Tilemaps;
+using UnityEngine.SceneManagement;
 
 public class PlayerInput : MonoBehaviour
 {
@@ -16,9 +17,14 @@ public class PlayerInput : MonoBehaviour
     public float fallMultiplier = 1.5f;
     private float movement = 0f;
 
+    // Restart Level
+    private float restartTimer = 0;
+    private float restartCooldown = 3f;
+
     // Switching
     [SerializeField] GameObject presentDimension;
     [SerializeField] GameObject pastDimension;
+    private bool allowDimSwitch = false;  // can change through triggers for certain areas on map - or when change scenes, etc so it remains unique to level
     public bool present = true;
     public float timer;
     public float cooldown;
@@ -31,7 +37,7 @@ public class PlayerInput : MonoBehaviour
 
     // Jumping
     private bool isGrounded = false;
-    private bool allowDoubleJump = true;  // can change through triggers for certain areas on map - or when change scenes, etc so it remains unique to level
+    private bool allowDoubleJump = false;  // can change through triggers for certain areas on map - or when change scenes, etc so it remains unique to level
     private int numJumps = 0;
     private bool jumpRelease = false;
     private bool canJump;
@@ -40,7 +46,7 @@ public class PlayerInput : MonoBehaviour
     [SerializeField] private float dashSpeed = 10f;
     [SerializeField] private float dashDuration = 0.3f;
     [SerializeField] private float dashCooldown = 1f;
-    private bool allowDash = true;    // can change through triggers for certain areas on map - or when change scenes, etc so it remains unique to level
+    private bool allowDash = false;    // can change through triggers for certain areas on map - or when change scenes, etc so it remains unique to level
     private bool canDash = true;
     private bool isDashing = false;
     private float dashTime;
@@ -52,9 +58,12 @@ public class PlayerInput : MonoBehaviour
     private float doubleTap = 0.25f;
 
     // Animator
-    //[SerializeField] private Animator animator;
+    [SerializeField] CanvasScript CanvasScript;
     private Animator animator;
     private bool facingRight = true;
+
+    // Level Switching
+    private int index; // Level index in Build 
 
 
     //--------------------------------------------- Start ----------------------------------------------\\
@@ -66,7 +75,41 @@ public class PlayerInput : MonoBehaviour
 
         // Switch
         timer = 0;
-        cooldown = 1;
+        cooldown = 0.6f;
+
+        // Initialize index - gets current level (when loads new scene)
+        index = SceneManager.GetActiveScene().buildIndex;
+
+        // Initialization for proper dimension - if level starts in past, set present to false
+        if (index == 1 || index == 2)   // aka Levels 2 & 3
+        {
+            present = false;
+
+            audioEerie.playOnAwake = false;
+            audioEerie.Stop();
+
+            audioBirds.playOnAwake = true;
+            audioBirds.Play();
+        }
+
+        // Special Mvmts for Levels   -- >= in case of level bugs during gameplay        
+        if (index >= 1) // enable dim. switch  - at level 2 (index is 1)
+        {
+            allowDimSwitch = true;
+            //Debug.Log("Dimension Switch enabled");
+        }
+
+        if (index >= 3) // enable double jump  - level 4 (index is 3)
+        {
+            allowDoubleJump = true;
+            //Debug.Log("Double Jump enabled");
+        }
+
+        if (index >= 4) // enable dash - level 5 (index is 4)
+        {
+            allowDash = true;
+            //Debug.Log("Dash enabled");
+        }
     }
 
     //--------------------------------------------- Updates ----------------------------------------------\\
@@ -74,14 +117,27 @@ public class PlayerInput : MonoBehaviour
     void Update()
     {
         animator.SetFloat("Speed", Mathf.Abs(speed * movement));
-    
+
+        // Restart Level
+        if (restartTimer <= restartCooldown) { restartTimer += Time.deltaTime; }
+        if (Input.GetKeyDown(KeyCode.R) && restartTimer >= restartCooldown)
+        {
+            // Reset all static instruction flags
+            InstructionsScript.ADhasFadedOut = false;
+            InstructionsScript.RhasFadedOut = false;
+            InstructionsScript.ADwaitForExit = false;
+            InstructionsScript.RwaitForExit = false;
+
+            SceneManager.LoadScene(index);  // reload current scene - note that it also reloads script
+        }
+
         // Switch
-        if (timer >= 0) {timer -= Time.deltaTime;}
-        if (Input.GetKeyDown(KeyCode.S) && timer <= 0)
+        if (timer >= 0) { timer -= Time.deltaTime; }
+        if (allowDimSwitch && Input.GetKeyDown(KeyCode.S) && timer <= 0)
         {
             switchDimension(present);
             timer = cooldown;
-            Debug.Log("switched");
+            //Debug.Log("switched");
         }
 
         // Dashing
@@ -97,6 +153,9 @@ public class PlayerInput : MonoBehaviour
         }
         else { audioSteps.Stop(); }
 
+        // Animations
+        animator.SetBool("Running", isMoving);
+        animator.SetBool("Present", present);
     }
 
     private void FixedUpdate()
@@ -113,7 +172,7 @@ public class PlayerInput : MonoBehaviour
             Jump();
             canJump = false;
         }
-            
+
         if (jumpRelease && rb.linearVelocity.y > 0f)        // jump height if the button is released during the jump
         {
             jumpRelease = false;
@@ -201,6 +260,7 @@ public class PlayerInput : MonoBehaviour
             audioEerie.Stop();  // stop present dim audio
             audioBirds.Play();  // play audio for past dim
             present = false;
+            CanvasScript.present = false;
         }
         else
         {
@@ -209,6 +269,7 @@ public class PlayerInput : MonoBehaviour
             audioBirds.Stop();  // stop past dim audio
             audioEerie.Play();  // play audio for present dim
             present = true;
+            CanvasScript.present = true;
         }
     }
 
@@ -220,7 +281,7 @@ public class PlayerInput : MonoBehaviour
     }
 
     void OnJump(InputValue value)  // NOTE: to enable double jump, make sure allowDoubleJump is set to true!
-    {   
+    {
         // Double Jump
         if (allowDoubleJump)
         {
@@ -290,19 +351,30 @@ public class PlayerInput : MonoBehaviour
         }
     }
 
-/* NOTE: may be issue with switch dimensions - do not include for now
-    void OnCollisionStay2D(Collision2D other)  // while IN collider - to make sure don't get the weird rare bug for jump
-    {
-        if (other.gameObject.CompareTag("Ground"))
+    /* NOTE: may be issue with switch dimensions - do not include for now
+        void OnCollisionStay2D(Collision2D other)  // while IN collider - to make sure don't get the weird rare bug for jump
         {
-            isGrounded = true;
+            if (other.gameObject.CompareTag("Ground"))
+            {
+                isGrounded = true;
+            }
         }
-    }
-*/
+    */
 
     void OnCollisionExit2D(Collision2D other)
     {
         isGrounded = false;
+    }
+
+
+    //--------------------------------------------- Level Loader ----------------------------------------------\\
+    void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.gameObject.CompareTag("LevelExit"))
+        {
+            // Debug.Log("trigger activated");
+            SceneManager.LoadScene(index + 1);  // loads the next scene in Build Profile
+        }
     }
 
 }
