@@ -7,6 +7,9 @@ public class InstructionsScript : MonoBehaviour
     [Header("Panel to Control")]
     public CanvasGroup ADGroup;
     public CanvasGroup RGroup;
+    public CanvasGroup SGroup;
+    public CanvasGroup DubSpaceGroup;
+    public CanvasGroup DubDGroup;
 
     [Header("Fade Settings")]
     public float fadeDuration = 1f;
@@ -14,8 +17,14 @@ public class InstructionsScript : MonoBehaviour
 
     public static bool ADhasFadedOut = false;
     public static bool RhasFadedOut = false;
+    public static bool ShasFadedOut = false;
+    public static bool DubSpacehasFadedOut = false;
+    public static bool DubDhasFadedOut = false;
     public static bool ADwaitForExit = false;
     public static bool RwaitForExit = false;
+    public static bool SwaitForExit = false;
+    public static bool DubSpacewaitForExit = false;
+    public static bool DubDwaitForExit = false;
 
     private void OnTriggerEnter2D(Collider2D other)
     {
@@ -50,6 +59,48 @@ public class InstructionsScript : MonoBehaviour
                     RhasFadedOut = true;
                 }
             }
+            if (gameObject.name.Contains("SKey"))
+            {
+                // First trigger
+                if (!ShasFadedOut && !SwaitForExit)
+                {
+                    SwaitForExit = true;
+                    StartCoroutine(FadeSequence(SGroup));
+                }
+                // Second trigger (exit point)
+                else if (SwaitForExit && !ShasFadedOut)
+                {
+                    ShasFadedOut = true;
+                }
+            }
+            if (gameObject.name.Contains("DubSpace"))
+            {
+                // First trigger
+                if (!DubSpacehasFadedOut && !DubSpacewaitForExit)
+                {
+                    DubSpacewaitForExit = true;
+                    StartCoroutine(FadeSequence(DubSpaceGroup));
+                }
+                // Second trigger (exit point)
+                else if (DubSpacewaitForExit && !DubSpacehasFadedOut)
+                {
+                    DubSpacehasFadedOut = true;
+                }
+            }
+            if (gameObject.name.Contains("DubD"))
+            {
+                // First trigger
+                if (!DubDhasFadedOut && !DubDwaitForExit)
+                {
+                    DubDwaitForExit = true;
+                    StartCoroutine(FadeSequence(DubDGroup));
+                }
+                // Second trigger (exit point)
+                else if (DubDwaitForExit && !DubDhasFadedOut)
+                {
+                    DubDhasFadedOut = true;
+                }
+            }
         }
     }
 
@@ -62,6 +113,21 @@ public class InstructionsScript : MonoBehaviour
             yield return FadeOut(targetGroup);
         }
         else if (targetGroup.name.Contains("R")) { }
+        else if (targetGroup.name.Contains("SKey"))
+        {
+            yield return new WaitUntil(() => ShasFadedOut);
+            yield return FadeOut(targetGroup);
+        }
+        else if (targetGroup.name.Contains("DubSpace"))
+        {
+            yield return new WaitUntil(() => DubSpacehasFadedOut);
+            yield return FadeOut(targetGroup);
+        }
+        else if (targetGroup.name.Contains("DubD"))
+        {
+            yield return new WaitUntil(() => DubDhasFadedOut);
+            yield return FadeOut(targetGroup);
+        }
 
     }
 

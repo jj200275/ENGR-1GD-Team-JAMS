@@ -125,8 +125,15 @@ public class PlayerInput : MonoBehaviour
             // Reset all static instruction flags
             InstructionsScript.ADhasFadedOut = false;
             InstructionsScript.RhasFadedOut = false;
+            InstructionsScript.ShasFadedOut = false;
+            InstructionsScript.DubSpacehasFadedOut = false;
+            InstructionsScript.DubDhasFadedOut = false;
+
             InstructionsScript.ADwaitForExit = false;
             InstructionsScript.RwaitForExit = false;
+            InstructionsScript.SwaitForExit = false;
+            InstructionsScript.DubSpacewaitForExit = false;
+            InstructionsScript.DubDwaitForExit = false;
 
             SceneManager.LoadScene(index);  // reload current scene - note that it also reloads script
         }
