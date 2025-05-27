@@ -247,7 +247,12 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      E1_Idle_Grayscale_SpriteSheet_0: -8017372090682229345
+      E1_Idle_Grayscale_SpriteSheet_1: 6016172037732501988
+      E1_Idle_Grayscale_SpriteSheet_2: 1395990169286541003
+      E1_Idle_Grayscale_SpriteSheet_3: 8643921329651264604
+      E1_Idle_Grayscale_SpriteSheet_4: 7459588003912786478
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
