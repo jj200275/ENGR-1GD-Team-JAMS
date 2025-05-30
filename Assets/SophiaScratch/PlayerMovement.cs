@@ -116,8 +116,6 @@ public class PlayerInput : MonoBehaviour
 
     void Update()
     {
-        animator.SetFloat("Speed", Mathf.Abs(speed * movement));
-
         // Restart Level
         if (restartTimer <= restartCooldown) { restartTimer += Time.deltaTime; }
         if (Input.GetKeyDown(KeyCode.R) && restartTimer >= restartCooldown)
