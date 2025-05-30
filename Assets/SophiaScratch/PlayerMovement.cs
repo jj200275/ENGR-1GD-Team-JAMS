@@ -65,6 +65,8 @@ public class PlayerInput : MonoBehaviour
     // Level Switching
     private int index; // Level index in Build 
 
+    // Flower 
+    [SerializeField] Tilemap tilemapF;  // Flower tilemap
 
     //--------------------------------------------- Start ----------------------------------------------\\
 
@@ -116,8 +118,6 @@ public class PlayerInput : MonoBehaviour
 
     void Update()
     {
-        animator.SetFloat("Speed", Mathf.Abs(speed * movement));
-
         // Restart Level
         if (restartTimer <= restartCooldown) { restartTimer += Time.deltaTime; }
         if (Input.GetKeyDown(KeyCode.R) && restartTimer >= restartCooldown)
@@ -381,6 +381,31 @@ public class PlayerInput : MonoBehaviour
         {
             // Debug.Log("trigger activated");
             SceneManager.LoadScene(index + 1);  // loads the next scene in Build Profile
+        }
+    }
+
+            //----------------------- Past Initialization -------------------\\
+            // Initialization for proper dimension - if level starts in past, set present to false
+            // Call this function in Start() if needed
+                void initializePastDim(int index)  // Note: level = index + 1
+                {
+                    present = false;
+
+                    audioEerie.playOnAwake = false;
+                    audioEerie.Stop();
+
+                    audioBirds.playOnAwake = true;
+                    audioBirds.Play();
+                }
+
+    //--------------------------------------------- Flower Trigger ----------------------------------------------\\
+
+     void OnTriggerStay2D(Collider2D other)  // trigger once player ON collectible
+    {
+        if (other.gameObject.CompareTag("Flower"))
+        {
+            // Debug.Log("flower trigger activated");
+            SceneManager.LoadScene("SophiaScene");  // CHANGE TO END SCENE ONCE GET - to load the end scene
         }
     }
 
