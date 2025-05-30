@@ -60,6 +60,9 @@ TagManager:
   - name: Player
     uniqueID: 1852764987
     locked: 0
+  - name: Obstacle Shadow
+    uniqueID: 397773565
+    locked: 0
   - name: Platforms
     uniqueID: 2398462541
     locked: 0

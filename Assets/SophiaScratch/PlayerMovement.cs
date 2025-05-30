@@ -75,7 +75,7 @@ public class PlayerInput : MonoBehaviour
 
         // Switch
         timer = 0;
-        cooldown = 0.6f;
+        cooldown = 0.3f;
 
         // Initialize index - gets current level (when loads new scene)
         index = SceneManager.GetActiveScene().buildIndex;
@@ -83,7 +83,7 @@ public class PlayerInput : MonoBehaviour
         // Initialization for proper dimension - if level starts in past, set present to false
         if (index == 1 || index == 2)   // aka Levels 2 & 3
         {
-            present = false;
+            present = true;
 
             audioEerie.playOnAwake = false;
             audioEerie.Stop();
@@ -125,8 +125,15 @@ public class PlayerInput : MonoBehaviour
             // Reset all static instruction flags
             InstructionsScript.ADhasFadedOut = false;
             InstructionsScript.RhasFadedOut = false;
+            InstructionsScript.ShasFadedOut = false;
+            InstructionsScript.DubSpacehasFadedOut = false;
+            InstructionsScript.DubDhasFadedOut = false;
+
             InstructionsScript.ADwaitForExit = false;
             InstructionsScript.RwaitForExit = false;
+            InstructionsScript.SwaitForExit = false;
+            InstructionsScript.DubSpacewaitForExit = false;
+            InstructionsScript.DubDwaitForExit = false;
 
             SceneManager.LoadScene(index);  // reload current scene - note that it also reloads script
         }
