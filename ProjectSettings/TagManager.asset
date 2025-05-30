@@ -8,6 +8,7 @@ TagManager:
   - Ground
   - LevelExit
   - InstructionTrigger
+  - Flower
   layers:
   - Default
   - TransparentFX
