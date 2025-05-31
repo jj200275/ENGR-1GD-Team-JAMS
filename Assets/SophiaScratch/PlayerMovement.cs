@@ -15,6 +15,7 @@ public class PlayerInput : MonoBehaviour
     [SerializeField] private float speed = 4f;
     [SerializeField] private float jumpHeight = 8f;
     private float movement = 0f;
+    private bool canMove = true;  // turn off to disable player mvmt during end flower animation
     public float fallMultiplier = 1.5f;
 
     // Restart Level
@@ -67,6 +68,10 @@ public class PlayerInput : MonoBehaviour
     private int index; // Level index in Build 
     private string levelName;  // Level/scene name 
 
+    // Flower
+    public Animator flowerAnimatorControl;
+
+
     //--------------------------------------------- Start ----------------------------------------------\\
 
     void Start()
@@ -102,7 +107,7 @@ public class PlayerInput : MonoBehaviour
         if (levelName == "Level End")
         {
             allowDimSwitch = false;
-            initializePastDim(index);
+            // initializePastDim(index);    // DELETE - Only include if doing timer dim. switch on this level
         }
 
     }
@@ -138,11 +143,14 @@ public class PlayerInput : MonoBehaviour
             switchDimension(present);
             timer = cooldown;
         }
+
+        /*  DELETE - Only include if want timed dim. switch
         if (levelName == "Level End" && timer <= 0)
         {
             switchDimension(present);
             timer = switchTime;
         }
+        */
 
         // Dashing
         CheckDoubleTap();
@@ -164,58 +172,63 @@ public class PlayerInput : MonoBehaviour
 
     private void FixedUpdate()
     {
-        // Fast Fall - for falling/jumping
-        if (!Mathf.Approximately(rb.linearVelocity.y, 0))  // when y-velocity NOT = 0 | note this includes when the player falls - not just when jump
+        if (canMove)
         {
-            rb.linearVelocity += Vector2.up * Physics.gravity.y * fallMultiplier * Time.fixedDeltaTime;  // makes player fall faster (e.g. after jump)
-        }
-
-        // Jump
-        if (canJump)
-        {
-            Jump();
-            canJump = false;
-        }
-
-        if (jumpRelease && rb.linearVelocity.y > 0f)        // jump height if the button is released during the jump
-        {
-            jumpRelease = false;
-        }
-
-        if (isGrounded && Mathf.Approximately(rb.linearVelocity.y, 0))  // if player is on "Ground" AND has NO y-velocity (not touching side walls)
-        {
-            numJumps = 0;       // reset the number of jumps
-        }
-
-        // Dashing
-        if (allowDash)
-        {
-            if (isDashing)
+            // Fast Fall - for falling/jumping
+            if (!Mathf.Approximately(rb.linearVelocity.y, 0))  // when y-velocity NOT = 0 | note this includes when the player falls - not just when jump
             {
-                dashTime -= Time.fixedDeltaTime;
-                if (dashTime <= 0f)
+                rb.linearVelocity += Vector2.up * Physics.gravity.y * fallMultiplier * Time.fixedDeltaTime;  // makes player fall faster (e.g. after jump)
+            }
+
+            // Jump
+            if (canJump)
+            {
+                Jump();
+                canJump = false;
+            }
+
+            if (jumpRelease && rb.linearVelocity.y > 0f)        // jump height if the button is released during the jump
+            {
+                jumpRelease = false;
+            }
+
+            if (isGrounded && Mathf.Approximately(rb.linearVelocity.y, 0))  // if player is on "Ground" AND has NO y-velocity (not touching side walls)
+            {
+                numJumps = 0;       // reset the number of jumps
+            }
+
+            // Dashing
+            if (allowDash)
+            {
+                if (isDashing)
                 {
-                    isDashing = false;
-                    dashCooldownTimer = dashCooldown;
+                    dashTime -= Time.fixedDeltaTime;
+                    if (dashTime <= 0f)
+                    {
+                        isDashing = false;
+                        dashCooldownTimer = dashCooldown;
+                    }
+                }
+                else
+                {
+                    dashCooldownTimer -= Time.fixedDeltaTime;
+                    if (dashCooldownTimer <= 0f)
+                    {
+                        canDash = true;
+                    }
+
+                    Move(movement); // Normal move - is now here (used to be in Update()) | this is necessary for dash to work
                 }
             }
-            else
-            {
-                dashCooldownTimer -= Time.fixedDeltaTime;
-                if (dashCooldownTimer <= 0f)
-                {
-                    canDash = true;
-                }
 
-                Move(movement); // Normal move - is now here (used to be in Update()) | this is necessary for dash to work
+            // Move (No dash)
+            if (!allowDash)
+            {
+                Move(movement); // Normal move 
             }
         }
 
-        // Move (No dash)
-        if (!allowDash)
-        {
-            Move(movement); // Normal move 
-        }
+        else { Move(0); }  // if canMove = false, stop player mvmt
     }
 
     //--------------------------------------------- Move ----------------------------------------------\\
@@ -227,17 +240,20 @@ public class PlayerInput : MonoBehaviour
 
     void OnMove(InputValue value)
     {
-        movement = value.Get<float>();
-
-        // flips player animation
-        if (movement < 0 && facingRight == true)
+        if (canMove)
         {
-            Flip();
-        }
+            movement = value.Get<float>();
 
-        if (movement > 0 && facingRight == false)
-        {
-            Flip();
+            // flips player animation
+            if (movement < 0 && facingRight == true)
+            {
+                Flip();
+            }
+
+            if (movement > 0 && facingRight == false)
+            {
+                Flip();
+            }
         }
     }
 
@@ -249,8 +265,6 @@ public class PlayerInput : MonoBehaviour
 
         facingRight = !facingRight;
     }
-
-    //--------------------------------------------- Audio ----------------------------------------------\\
 
 
     //--------------------------------------------- Switch ----------------------------------------------\\
@@ -317,21 +331,23 @@ public class PlayerInput : MonoBehaviour
 
     private void CheckDoubleTap()
     {
-        if (Keyboard.current.aKey.wasPressedThisFrame)
-        {
-            if (Time.time - tapLeft < doubleTap && canDash)
+        if (canMove){
+            if (Keyboard.current.aKey.wasPressedThisFrame)
             {
-                Dash(-1);
+                if (Time.time - tapLeft < doubleTap && canDash)
+                {
+                    Dash(-1);
+                }
+                tapLeft = Time.time;
             }
-            tapLeft = Time.time;
-        }
-        if (Keyboard.current.dKey.wasPressedThisFrame)
-        {
-            if (Time.time - tapRight < doubleTap && canDash)
+            if (Keyboard.current.dKey.wasPressedThisFrame)
             {
-                Dash(1);
+                if (Time.time - tapRight < doubleTap && canDash)
+                {
+                    Dash(1);
+                }
+                tapRight = Time.time;
             }
-            tapRight = Time.time;
         }
     }
 
@@ -355,28 +371,28 @@ public class PlayerInput : MonoBehaviour
         }
     }
 
-    /* NOTE: may be issue with switch dimensions - do not include for now
-        void OnCollisionStay2D(Collision2D other)  // while IN collider - to make sure don't get the weird rare bug for jump
-        {
-            if (other.gameObject.CompareTag("Ground"))
-            {
-                isGrounded = true;
-            }
-        }
-    */
-
     void OnCollisionExit2D(Collision2D other)
     {
         isGrounded = false;
     }
 
 
-    //--------------------------------------------- Level Loader ----------------------------------------------\\
+    //--------------------------------------------- Triggers ----------------------------------------------\\
     void OnTriggerEnter2D(Collider2D other)
     {
+        // Level Loader
         if (other.gameObject.CompareTag("LevelExit"))
         {
             SceneManager.LoadScene(index + 1);  // loads the next scene in Build Profile
+        }
+
+        // Flower Trigger
+        if (other.gameObject.CompareTag("FlowerTrigger"))
+        {
+            switchDimension(present);
+            canMove = false;  // stops player from being able to move
+            flowerAnimatorControl.SetBool("isBloom", true);
+            StartCoroutine("Bloom");    
         }
     }
 
@@ -396,12 +412,10 @@ public class PlayerInput : MonoBehaviour
 
     //--------------------------------------------- Flower Trigger ----------------------------------------------\\
 
-     void OnTriggerStay2D(Collider2D other)  // trigger once player IN/ON object
+    IEnumerator Bloom()
     {
-        if (other.gameObject.CompareTag("FlowerTrigger"))
-        {
-            SceneManager.LoadScene("Level 1");  // CHANGE TO END SCENE ONCE GET - to load the end scene
-        }
+        yield return new WaitForSeconds(flowerAnimatorControl.GetCurrentAnimatorStateInfo(0).length + 3);
+        SceneManager.LoadScene("Level 1");  // CHANGE TO END SCENE ONCE GET! - Loads end scene
     }
 
 }
