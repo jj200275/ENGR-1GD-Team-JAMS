@@ -14,8 +14,8 @@ public class PlayerInput : MonoBehaviour
     private Rigidbody2D rb;
     [SerializeField] private float speed = 4f;
     [SerializeField] private float jumpHeight = 8f;
-    public float fallMultiplier = 1.5f;
     private float movement = 0f;
+    public float fallMultiplier = 1.5f;
 
     // Restart Level
     private float restartTimer = 0;
@@ -25,9 +25,10 @@ public class PlayerInput : MonoBehaviour
     [SerializeField] GameObject presentDimension;
     [SerializeField] GameObject pastDimension;
     private bool allowDimSwitch = false;  // can change through triggers for certain areas on map - or when change scenes, etc so it remains unique to level
+    private float timer;
+    private float cooldown;
+    private float switchTime;
     public bool present = true;
-    public float timer;
-    public float cooldown;
 
     // Audio
     public AudioSource audioSteps;  // both dim
@@ -64,9 +65,7 @@ public class PlayerInput : MonoBehaviour
 
     // Level Switching
     private int index; // Level index in Build 
-
-    // Flower 
-    [SerializeField] Tilemap tilemapF;  // Flower tilemap
+    private string levelName;  // Level/scene name 
 
     //--------------------------------------------- Start ----------------------------------------------\\
 
@@ -78,40 +77,34 @@ public class PlayerInput : MonoBehaviour
         // Switch
         timer = 0;
         cooldown = 0.3f;
+        switchTime = 2.7f;
 
         // Initialize index - gets current level (when loads new scene)
         index = SceneManager.GetActiveScene().buildIndex;
-
-        // Initialization for proper dimension - if level starts in past, set present to false
-        if (index == 1 || index == 2)   // aka Levels 2 & 3
-        {
-            present = true;
-
-            audioEerie.playOnAwake = false;
-            audioEerie.Stop();
-
-            audioBirds.playOnAwake = true;
-            audioBirds.Play();
-        }
+        levelName = SceneManager.GetActiveScene().name;
 
         // Special Mvmts for Levels   -- >= in case of level bugs during gameplay        
         if (index >= 1) // enable dim. switch  - at level 2 (index is 1)
         {
             allowDimSwitch = true;
-            //Debug.Log("Dimension Switch enabled");
         }
 
         if (index >= 3) // enable double jump  - level 4 (index is 3)
         {
             allowDoubleJump = true;
-            //Debug.Log("Double Jump enabled");
         }
 
         if (index >= 4) // enable dash - level 5 (index is 4)
         {
             allowDash = true;
-            //Debug.Log("Dash enabled");
         }
+
+        if (levelName == "Level End")
+        {
+            allowDimSwitch = false;
+            initializePastDim(index);
+        }
+
     }
 
     //--------------------------------------------- Updates ----------------------------------------------\\
@@ -144,7 +137,11 @@ public class PlayerInput : MonoBehaviour
         {
             switchDimension(present);
             timer = cooldown;
-            //Debug.Log("switched");
+        }
+        if (levelName == "Level End" && timer <= 0)
+        {
+            switchDimension(present);
+            timer = switchTime;
         }
 
         // Dashing
@@ -379,7 +376,6 @@ public class PlayerInput : MonoBehaviour
     {
         if (other.gameObject.CompareTag("LevelExit"))
         {
-            // Debug.Log("trigger activated");
             SceneManager.LoadScene(index + 1);  // loads the next scene in Build Profile
         }
     }
@@ -400,12 +396,11 @@ public class PlayerInput : MonoBehaviour
 
     //--------------------------------------------- Flower Trigger ----------------------------------------------\\
 
-     void OnTriggerStay2D(Collider2D other)  // trigger once player ON collectible
+     void OnTriggerStay2D(Collider2D other)  // trigger once player IN/ON object
     {
-        if (other.gameObject.CompareTag("Flower"))
+        if (other.gameObject.CompareTag("FlowerTrigger"))
         {
-            // Debug.Log("flower trigger activated");
-            SceneManager.LoadScene("SophiaScene");  // CHANGE TO END SCENE ONCE GET - to load the end scene
+            SceneManager.LoadScene("Level 1");  // CHANGE TO END SCENE ONCE GET - to load the end scene
         }
     }
 
