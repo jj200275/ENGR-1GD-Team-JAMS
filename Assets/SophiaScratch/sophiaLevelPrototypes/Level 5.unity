@@ -23500,6 +23500,7 @@ MonoBehaviour:
   dashDuration: 0.2
   dashCooldown: 0.5
   CanvasScript: {fileID: 468389300}
+  tilemapF: {fileID: 0}
 --- !u!114 &844607078
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -25529,7 +25530,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: -962488092458481032, guid: 22ac7432422911b40bc595bdd7896de6, type: 3}
+  m_Sprite: {fileID: -4222246150549159873, guid: 046324db6b087450cb42ae0e7136ec73, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -25866,7 +25867,7 @@ Transform:
   m_GameObject: {fileID: 1532227073}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.2480936, y: 5.5490017, z: -10}
+  m_LocalPosition: {x: -1.5130243, y: 5.5490017, z: -10}
   m_LocalScale: {x: 3, y: 3, z: 3}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -26828,7 +26829,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -11.209961, y: 4.48999}
+  m_AnchoredPosition: {x: -9.949951, y: 4.039978}
   m_SizeDelta: {x: -2552.4753, y: -1437.1759}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1725395228
@@ -26858,7 +26859,7 @@ CanvasGroup:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1725395226}
   m_Enabled: 1
-  m_Alpha: 0
+  m_Alpha: 1
   m_Interactable: 0
   m_BlocksRaycasts: 0
   m_IgnoreParentGroups: 0
@@ -32961,7 +32962,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: -962488092458481032, guid: 22ac7432422911b40bc595bdd7896de6, type: 3}
+  m_Sprite: {fileID: -4222246150549159873, guid: 046324db6b087450cb42ae0e7136ec73, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
