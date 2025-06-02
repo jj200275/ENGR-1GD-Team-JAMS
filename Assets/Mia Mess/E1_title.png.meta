@@ -73,7 +73,7 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 1
+  spriteMode: 2
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
@@ -148,7 +148,7 @@ TextureImporter:
         width: 1573
         height: 561
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -165,10 +165,10 @@ TextureImporter:
       name: E1_title_1
       rect:
         serializedVersion: 2
-        x: 1138
-        y: 526
-        width: 215
-        height: 146
+        x: 1130
+        y: 452
+        width: 722
+        height: 217
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -179,182 +179,6 @@ TextureImporter:
       bones: []
       spriteID: b6edfef71d98bd730800000000000000
       internalID: 4024962224873266795
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: E1_title_2
-      rect:
-        serializedVersion: 2
-        x: 1397
-        y: 644
-        width: 401
-        height: 32
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: ac2ebc03f968b6cc0800000000000000
-      internalID: -3716729049187622198
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: E1_title_3
-      rect:
-        serializedVersion: 2
-        x: 1256
-        y: 522
-        width: 57
-        height: 68
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 4bb2011bcbc1aea80800000000000000
-      internalID: -8436899355175146572
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: E1_title_4
-      rect:
-        serializedVersion: 2
-        x: 1299
-        y: 522
-        width: 57
-        height: 75
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 555035a54e20f3a30800000000000000
-      internalID: 4197076557523780949
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: E1_title_5
-      rect:
-        serializedVersion: 2
-        x: 1347
-        y: 523
-        width: 54
-        height: 77
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: a3a72f1a402c879c0800000000000000
-      internalID: -3929177349728077254
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: E1_title_6
-      rect:
-        serializedVersion: 2
-        x: 1410
-        y: 527
-        width: 71
-        height: 75
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: cb98ec76a26d3dc20800000000000000
-      internalID: 3230160835373337020
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: E1_title_7
-      rect:
-        serializedVersion: 2
-        x: 1527
-        y: 523
-        width: 60
-        height: 75
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 1b0c6de2a263cb330800000000000000
-      internalID: 3727914146358280369
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: E1_title_8
-      rect:
-        serializedVersion: 2
-        x: 1575
-        y: 457
-        width: 280
-        height: 166
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 166bc01cfae7871c0800000000000000
-      internalID: -4505712133860968863
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: E1_title_9
-      rect:
-        serializedVersion: 2
-        x: 1148
-        y: 443
-        width: 385
-        height: 32
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: be44b8ddef1c483a0800000000000000
-      internalID: -6663988248218745621
       vertices: []
       indices: 
       edges: []
@@ -375,6 +199,7 @@ TextureImporter:
     nameFileIdTable:
       E1_title_0: 8321826307669277134
       E1_title_1: 4024962224873266795
+      E1_title_10: -910904416
       E1_title_2: -3716729049187622198
       E1_title_3: -8436899355175146572
       E1_title_4: 4197076557523780949
