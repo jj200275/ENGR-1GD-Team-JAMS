@@ -645,7 +645,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: -1182827721247122346, guid: 16671b5971d1d794aad1eccd493eac66, type: 3}
+  m_Sprite: {fileID: 6442040339895298714, guid: 046324db6b087450cb42ae0e7136ec73, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -12797,7 +12797,7 @@ MonoBehaviour:
     AngularDampingMode: 0
     RotationDamping: {x: 1, y: 1, z: 1}
     QuaternionDamping: 1
-  FollowOffset: {x: 0, y: 5, z: -10}
+  FollowOffset: {x: 0, y: 2, z: -10}
 --- !u!114 &550025884
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12850,7 +12850,7 @@ Transform:
   m_GameObject: {fileID: 550025881}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -12.38, y: 10.96, z: -10}
+  m_LocalPosition: {x: -12.38, y: 7.96, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

@@ -12,7 +12,7 @@ public class InstructionsScript : MonoBehaviour
     public CanvasGroup DubDGroup;
 
     [Header("Fade Settings")]
-    public float fadeDuration = 1f;
+    public float fadeDuration = 5f;
     public float visibleDuration = 5f;
 
     public static bool ADhasFadedOut = false;
@@ -33,102 +33,70 @@ public class InstructionsScript : MonoBehaviour
             if (gameObject.name.Contains("AD"))
             {
                 // First trigger
-                if (!ADhasFadedOut && !ADwaitForExit)
+                if (gameObject.name.Contains("Start"))
                 {
-                    ADwaitForExit = true;
-                    StartCoroutine(FadeSequence(ADGroup));
+                    StartCoroutine(FadeIn(ADGroup));
                 }
                 // Second trigger (exit point)
-                else if (ADwaitForExit && !ADhasFadedOut)
+                else if (gameObject.name.Contains("End"))
                 {
-                    ADhasFadedOut = true;
+                    StartCoroutine(FadeOut(ADGroup));
                 }
             }
 
             else if (gameObject.name.Contains("R"))
             {
                 // First trigger
-                if (!RhasFadedOut && !RwaitForExit)
+                if (gameObject.name.Contains("Start"))
                 {
-                    RwaitForExit = true;
-                    StartCoroutine(FadeSequence(RGroup));
+                    StartCoroutine(FadeIn(RGroup));
                 }
                 // Second trigger (exit point)
-                else if (RwaitForExit && !RhasFadedOut)
+                else if (gameObject.name.Contains("End"))
                 {
-                    RhasFadedOut = true;
+                    StartCoroutine(FadeOut(RGroup));
                 }
             }
             if (gameObject.name.Contains("SKey"))
             {
                 // First trigger
-                if (!ShasFadedOut && !SwaitForExit)
+                if (gameObject.name.Contains("Start"))
                 {
-                    SwaitForExit = true;
-                    StartCoroutine(FadeSequence(SGroup));
+                    StartCoroutine(FadeIn(SGroup));
                 }
                 // Second trigger (exit point)
-                else if (SwaitForExit && !ShasFadedOut)
+                else if (gameObject.name.Contains("End"))
                 {
-                    ShasFadedOut = true;
+                    StartCoroutine(FadeOut(SGroup));
                 }
             }
             if (gameObject.name.Contains("DubSpace"))
             {
                 // First trigger
-                if (!DubSpacehasFadedOut && !DubSpacewaitForExit)
+                if (gameObject.name.Contains("Start"))
                 {
-                    DubSpacewaitForExit = true;
-                    StartCoroutine(FadeSequence(DubSpaceGroup));
+                    StartCoroutine(FadeIn(DubSpaceGroup));
                 }
                 // Second trigger (exit point)
-                else if (DubSpacewaitForExit && !DubSpacehasFadedOut)
+                else if (gameObject.name.Contains("End"))
                 {
-                    DubSpacehasFadedOut = true;
+                    StartCoroutine(FadeOut(DubSpaceGroup));
                 }
             }
             if (gameObject.name.Contains("DubD"))
             {
                 // First trigger
-                if (!DubDhasFadedOut && !DubDwaitForExit)
+                if (gameObject.name.Contains("Start"))
                 {
-                    DubDwaitForExit = true;
-                    StartCoroutine(FadeSequence(DubDGroup));
+                    StartCoroutine(FadeIn(DubDGroup));
                 }
                 // Second trigger (exit point)
-                else if (DubDwaitForExit && !DubDhasFadedOut)
+                else if (gameObject.name.Contains("End"))
                 {
-                    DubDhasFadedOut = true;
+                    StartCoroutine(FadeOut(DubDGroup));
                 }
             }
         }
-    }
-
-    private IEnumerator FadeSequence(CanvasGroup targetGroup)
-    {
-        yield return FadeIn(targetGroup);
-        if (targetGroup.name.Contains("AD"))
-        {
-            yield return new WaitUntil(() => ADhasFadedOut);
-            yield return FadeOut(targetGroup);
-        }
-        else if (targetGroup.name.Contains("R")) { }
-        else if (targetGroup.name.Contains("SKey"))
-        {
-            yield return new WaitUntil(() => ShasFadedOut);
-            yield return FadeOut(targetGroup);
-        }
-        else if (targetGroup.name.Contains("DubSpace"))
-        {
-            yield return new WaitUntil(() => DubSpacehasFadedOut);
-            yield return FadeOut(targetGroup);
-        }
-        else if (targetGroup.name.Contains("DubD"))
-        {
-            yield return new WaitUntil(() => DubDhasFadedOut);
-            yield return FadeOut(targetGroup);
-        }
-
     }
 
     private IEnumerator FadeIn(CanvasGroup group)
@@ -141,6 +109,7 @@ public class InstructionsScript : MonoBehaviour
             yield return null;
         }
         group.alpha = 1;
+        gameObject.SetActive(false);
     }
 
     private IEnumerator FadeOut(CanvasGroup group)
@@ -153,5 +122,6 @@ public class InstructionsScript : MonoBehaviour
             yield return null;
         }
         group.alpha = 0;
+        gameObject.SetActive(false);
     }
 }
