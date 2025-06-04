@@ -415,7 +415,9 @@ public class PlayerInput : MonoBehaviour
     IEnumerator Bloom()
     {
         yield return new WaitForSeconds(flowerAnimatorControl.GetCurrentAnimatorStateInfo(0).length + 3);
-        SceneManager.LoadScene("Level 1");  // CHANGE TO END SCENE ONCE GET! - Loads end scene
+        GameObject endscript = GameObject.Find("end scripting");
+        endscript.GetComponent<EndScript>().startEnd = true;
+        // SceneManager.LoadScene("Level 1");  // CHANGE TO END SCENE ONCE GET! - Loads end scene
     }
 
 }

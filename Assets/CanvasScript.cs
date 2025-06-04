@@ -4,6 +4,7 @@ using UnityEngine.UI;
 public class CanvasScript : MonoBehaviour
 {
     [SerializeField] Image vignette;
+
     public float fade;
     public bool present;
     void Start()

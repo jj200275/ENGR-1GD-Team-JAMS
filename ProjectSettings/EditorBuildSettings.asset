@@ -26,6 +26,9 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/SophiaScratch/sophiaLevelPrototypes/Level End.unity
     guid: 09b2ef650c2134ef3824a856c7f90637
+  - enabled: 1
+    path: Assets/SophiaScratch/sophiaLevelPrototypes/Credits.unity
+    guid: a598da1c601b74c49b30165c9644d651
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
   m_UseUCBPForAssetBundles: 0
