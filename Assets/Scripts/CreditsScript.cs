@@ -4,9 +4,9 @@ using UnityEngine.UI;
 
 public class CreditsScript : MonoBehaviour
 {
-    [SerializeField] TextMeshProUGUI thankyou;
+    [SerializeField] Image thankyou;
     [SerializeField] Image title;
-    [SerializeField] TextMeshProUGUI team;
+    [SerializeField] Image team;
     public float fade;
     public bool disappear;
     public int step;
